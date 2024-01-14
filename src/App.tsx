@@ -5,8 +5,12 @@ import { getCachedPage } from './api/helpers/getCachedPage';
 function App() {
 
   const handleClick = async () => {
-    const url = await getCachedPage('https://cooking.nytimes.com/recipes/1023687-roasted-honey-nut-squash-and-chickpeas-with-hot-honey');
-    alert(`Redirecting to: ${url}`)
+    chrome.tabs.query({ active: true, currentWindow: true }, async function(tabs) {
+      var activeTab = tabs[0];
+      alert('Redirecting to insecure page')
+      const url = await getCachedPage(activeTab.url || '');
+      window.open(url, '_blank');
+    })
   }
 
   return (
